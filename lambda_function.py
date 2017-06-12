@@ -20,40 +20,41 @@ def send_batch(batch):
         Array of records. Each records should be a dictionary with a Data key
     """
 
+    batch_data = list(map(lambda x: {'Data': json.dumps(x)}, batch))
+
     try:
         response = firehose_client.put_record_batch(
             DeliveryStreamName=firehose_stream_name,
-            Records=batch)
+            Records=batch_data)
+
+        failed_put_count = response.get('FailedPutCount')
+
+        # Handle failed records
+        if failed_put_count > 0:
+            logger.error('{} failed records put!'.format(failed_put_count))
+
+            failed_records = []
+            for i, record in enumerate(response['Records']):
+                if record.get('ErrorCode') == 'ProvisionedThroughputExceededException':
+                        failed_records.append(batch_data[i])
+
+            send_batch(failed_records)
+
     except Exception as e:
         logger.error('Exception: {}'.format(e))
-
-    if response['FailedPutCount'] > 0:
-        logger.error('{} failed records!'.format(response['FailedPutCount']))
-
-    # TODO: Handle FailedPut errors
 
 
 def lambda_handler(event, context):
     """ Main lambda handler.
 
-    The handler grabs the events from Kinesis and forwards the content to
+    The handler grabs events from Kinesis and forwards their content to
     Firehose.
 
     Parameters
     ----------
     event: dict
-        Contains the Records grabbed from the Kinesis stream
+        Contains Records grabbed from the Kinesis stream
     """
-    batch = []
 
-    for record in event['Records']:
-        batch.append({'Data': json.dumps(record)})
-
-        # If we hit 500 records, flush them to the stream
-        if len(batch) > 499:
-            send_batch(batch)
-            batch = []
-
-    # Flush remaining messages
-    if batch:
-        send_batch(batch)
+    if event['Records']:
+        send_batch(event['Records'])
