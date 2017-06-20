@@ -41,7 +41,7 @@ def send_batch(batch):
             send_batch(failed_records)
 
     except Exception as e:
-        logger.error('Exception: {}'.format(e))
+        logger.exception('Exception: {}'.format(e))
 
 
 def lambda_handler(event, context):

@@ -1,0 +1,6 @@
+{
+  "name": "k3",
+  "description": "Archive Kinesis Stream records to S3",
+  "nameTemplate": "{{.Function.Name}}",
+  "runtime": "python3.6"
+}
