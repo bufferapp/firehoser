@@ -56,5 +56,14 @@ def lambda_handler(event, context):
         Contains Records grabbed from the Kinesis stream
     """
 
-    if event['Records']:
-        send_batch(event['Records'])
+    if not event['Records']:
+        return
+
+    start = 0
+
+    for i in range(500, len(event['Records']), 500):
+        send_batch(event['Records'][start:i])
+        start = i
+
+    if start < len(event['Records']):
+        send_batch(event['Records'][start:])
