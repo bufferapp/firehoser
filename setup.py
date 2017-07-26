@@ -1,6 +1,7 @@
 #!/usr/bin/env python
 
 from setuptools import setup
+from setuptools import find_packages
 
 requirements = [
     'click',
@@ -11,6 +12,7 @@ setup(
     name="firehoser",
     version='0.5.1',
     py_modules=['firehoser'],
+    packages=find_packages(),
     install_requires=requirements,
     entry_points={
         'console_scripts': [
