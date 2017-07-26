@@ -13,8 +13,8 @@ pip install git+https://github.com/bufferapp/firehoser
 ## Usage
 
 ```bash
-firehoser backup --kinesis-stream [kinesis-stream-name] --firehose-stream [firehose-stream-name]
-firehoser cleanup [kinesis-stream-name] [firehose-stream-name]
+firehoser link [kinesis-stream-name] [firehose-stream-name]
+firehoser unlink [kinesis-stream-name] [firehose-stream-name]
 ```
 
 ## Contributing
