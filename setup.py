@@ -10,7 +10,7 @@ requirements = [
 
 setup(
     name="firehoser",
-    version='1.0.2',
+    version='1.0.3',
     description='Command line tool that automates the setup of a lambda function that fowards records from Kinesis to Firehose.',
     url='https://github.com/bufferapp/firehoser',
     author='David Gasquez',
