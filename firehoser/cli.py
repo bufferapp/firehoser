@@ -27,6 +27,7 @@ def compress_file(path, mode=zipfile.ZIP_DEFLATED):
 
 @click.group()
 def firehoser():
+    """Fowards records from Kinesis to Firehose."""
     pass
 
 
@@ -35,7 +36,7 @@ def firehoser():
 @click.argument('firehose_stream_name')
 @click.option('--record_delimiter', '-d', default='\n')
 def link(kinesis_stream_name, firehose_stream_name, record_delimiter):
-
+    """Setup lambda to forwards events."""
     # Check the stream exists and grab information
     try:
         response = kinesis_client.describe_stream(StreamName=kinesis_stream_name)
@@ -99,6 +100,7 @@ def link(kinesis_stream_name, firehose_stream_name, record_delimiter):
 @click.argument('kinesis_stream_name')
 @click.argument('firehose_stream_name')
 def unlink(kinesis_stream_name, firehose_stream_name):
+    """Destroy Lambda created with link."""
     function_name = '{}_backup'.format(kinesis_stream_name)
 
     lambda_arn = None
