@@ -2,6 +2,8 @@ import click
 import boto3
 import sys
 import os
+from io import BytesIO
+import zipfile
 
 from .iam import create_firehoser_role
 from .iam import put_firehoser_role_policy
@@ -9,6 +11,18 @@ from .iam import put_firehoser_role_policy
 lambda_client = boto3.client('lambda')
 iam_client = boto3.client('iam')
 kinesis_client = boto3.client('kinesis')
+
+
+def compress_file(path, mode=zipfile.ZIP_DEFLATED):
+    with open(path, 'r') as zip_file:
+        lambda_file_content = zip_file.read()
+    lambda_io_buffer = BytesIO()
+    zipFile = zipfile.ZipFile(lambda_io_buffer, 'w')
+    zipFile.writestr('lambda.py', lambda_file_content, compress_type=mode)
+    zipFile.close()
+    lambda_io_buffer.seek(0)
+
+    return lambda_io_buffer.read()
 
 
 @click.group()
@@ -38,11 +52,12 @@ def link(kinesis_stream_name, firehose_stream_name, record_delimiter):
     # Attach required policy
     response = put_firehoser_role_policy()
 
-    dir_path = os.path.dirname(os.path.realpath(__file__))
-
     # Read lambda zip
-    with open(dir_path + '/lambda.zip', 'rb') as zip_file:
-        lambda_zip_file = zip_file.read()
+    directory = os.path.dirname(__file__)
+    lambda_path = os.path.join(directory, 'lambda.py')
+
+    # Compress in memory
+    lambda_zip_file = compress_file(lambda_path)
 
     lambda_function_name = '{}_backup'.format(kinesis_stream_name)
 
