@@ -7,10 +7,12 @@ Command line tool that automates the setup of a lambda function that fowards rec
 To install Firehoser, simply:
 
 ```
-pip install git+https://github.com/bufferapp/firehoser
+pip install firehoser
 ```
 
 ## Usage
+
+
 
 ```bash
 firehoser link [kinesis-stream-name] [firehose-stream-name]

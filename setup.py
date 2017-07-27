@@ -10,7 +10,13 @@ requirements = [
 
 setup(
     name="firehoser",
-    version='0.5.1',
+    version='1.0.2',
+    description='Command line tool that automates the setup of a lambda function that fowards records from Kinesis to Firehose.',
+    url='https://github.com/bufferapp/firehoser',
+    author='David Gasquez',
+    author_email='davidgasquez@buffer.com',
+    license='MIT',
+    keywords='kinesis aws firehose lambda',
     py_modules=['firehoser'],
     packages=find_packages(),
     install_requires=requirements,
