@@ -1,7 +1,7 @@
 # Firehoser
 
-[![license](https://img.shields.io/github/license/mashape/apistatus.svg)]()
-[![PyPI version](https://badge.fury.io/py/firehoser.svg)](https://badge.fury.io/py/firehoser)
+[![license](https://img.shields.io/github/license/mashape/apistatus.svg)](LICENSE)
+[![PyPI version](https://badge.fury.io/py/firehoser.svg)](https://pypi.python.org/pypi/firehoser)
 
 Command line tool that automates the setup of a lambda function that fowards records from Kinesis to Firehose.
 
