@@ -3,6 +3,9 @@
 [![license](https://img.shields.io/github/license/mashape/apistatus.svg)](LICENSE)
 [![PyPI version](https://badge.fury.io/py/firehoser.svg)](https://pypi.python.org/pypi/firehoser)
 
+
+__Note: This project is now deprecated. For forwarding Kinesis Streams data to Kinesis Firehose, you can now configured Kinesis Streams as a source directly. You may still find this project useful for other reasons!__
+
 Command line tool that automates the setup of a lambda function that fowards records from Kinesis to Firehose.
 
 ## Installation
